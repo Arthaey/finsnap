@@ -1,4 +1,5 @@
-require_relative "account"
+require "extensions/string"
+require "account"
 
 class Institution
   def self.login(name, username, password)

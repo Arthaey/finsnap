@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+lib = File.expand_path("lib", __dir__)
+$LOAD_PATH.unshift(lib)
+
+require "fin_snap"
+
+config_filename = ARGV.empty? ? "sources.yml" : ARGV.shift
+FinSnap.new(config_filename).run!
