@@ -2,19 +2,12 @@ require "fakeweb"
 
 FakeWeb.allow_net_connect = false
 
-login_html = File.read("spec/fixtures/acme_login.html")
-FakeWeb.register_uri(:get, "http://acme.example.com/login",
-                     :body => login_html,
-                     :content_type => "text/html")
-
-accounts_html = File.read("spec/fixtures/acme_accounts.html")
-FakeWeb.register_uri(:post, "http://acme.example.com/accounts",
-                     :body => accounts_html,
-                     :content_type => "text/html")
-
-
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
+  config.after(:each) do
+    FakeWeb.clean_registry
+  end
+
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end

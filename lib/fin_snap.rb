@@ -17,7 +17,12 @@ class FinSnap
     institutions = []
 
     @sources.each do |name, info|
-      institution = Institution.new(name, info[:username], info[:password], info[:login_url])
+      institution = Institution.new(name,
+                                    info[:username],
+                                    info[:password],
+                                    info[:login],
+                                    info[:accounts])
+
       institution.fetch_accounts!
 
       output << "#{institution.name.upcase}\n"

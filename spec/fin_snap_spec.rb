@@ -7,6 +7,14 @@ RSpec.describe FinSnap do
   let(:finsnap) { FinSnap.new(CONFIG_FILE) }
 
   it "fetches and displays account balances" do
+    FakeWeb.register_uri(:get, "http://acme.example.com/login",
+                         :body => File.read("spec/fixtures/acme_login.html"),
+                         :content_type => "text/html")
+
+    FakeWeb.register_uri(:post, "http://acme.example.com/accounts",
+                         :body => File.read("spec/fixtures/acme_accounts.html"),
+                         :content_type => "text/html")
+
     actual_output = finsnap.run!
 
     expected_output = <<~OUTPUT
