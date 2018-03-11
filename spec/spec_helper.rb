@@ -1,12 +1,20 @@
 require "fakeweb"
-require "rspec_command"
 
 FakeWeb.allow_net_connect = false
 
+login_html = File.read("spec/fixtures/acme_login.html")
+FakeWeb.register_uri(:get, "http://acme.example.com/login",
+                     :body => login_html,
+                     :content_type => "text/html")
+
+accounts_html = File.read("spec/fixtures/acme_accounts.html")
+FakeWeb.register_uri(:post, "http://acme.example.com/accounts",
+                     :body => accounts_html,
+                     :content_type => "text/html")
+
+
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
-  config.include RSpecCommand
-
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
@@ -24,11 +32,7 @@ RSpec.configure do |config|
 
   config.filter_run_when_matching :focus # fit, fdescribe, fcontext, and :focus tag
   config.order = :random
-  config.warnings = true
-
-  if config.files_to_run.one?
-    config.default_formatter = "doc"
-  end
+  config.warnings = false
 
   #config.profile_examples = 10
 end

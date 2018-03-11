@@ -1,5 +1,4 @@
 require "yaml"
-require "terminal-table"
 
 require "extensions/object"
 require "institution"
@@ -12,25 +11,32 @@ class FinSnap
   end
 
   def run!
+    output = ""
+
     net_worth = Money.new(0, "USD")
     institutions = []
 
     @sources.each do |name, info|
-      institution = Institution.login(name, info[:username], info[:password])
-      puts institution.name.upcase
+      institution = Institution.new(name, info[:username], info[:password], info[:login_url])
+      institution.fetch_accounts!
+
+      output << "#{institution.name.upcase}\n"
+
       institution.accounts.each do |account|
         net_worth += account.balance
         sign = account.balance.negative? ? "-" : "+"
         amount = account.balance.abs.format.rjust(10)
-        puts "#{sign}  #{amount}   #{account.name} [#{account.type}]"
+        output << "#{sign}  #{amount}   #{account.name} [#{account.type}]\n"
       end
     end
 
     now = DateTime.now.strftime("%a %Y-%m-%d at %I:%M %p")
 
-    puts
-    puts "NET WORTH"
-    puts "=  #{net_worth.format.rjust(10)} (as of #{now})"
+    output << "\n"
+    output << "NET WORTH\n"
+    output << "=  #{net_worth.format.rjust(10)} (as of #{now})\n"
+
+    output
   end
 
 end

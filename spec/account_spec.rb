@@ -1,7 +1,7 @@
 require "account"
 
 RSpec.describe Account do
-  let(:account) { Account.new("My Account", :checking, 1234_00) }
+  let(:account) { Account.new("My Account", :checking, Money.new(1234_00)) }
 
   it "pretty-prints" do
     expect(account.to_s).to eq("My Account")

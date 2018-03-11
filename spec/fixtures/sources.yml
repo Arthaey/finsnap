@@ -1,4 +1,5 @@
 sources:
   acme_financial:
+    login_url: http://acme.example.com/login
     username: acme_user
     password: acme_pass

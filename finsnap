@@ -5,4 +5,5 @@ $LOAD_PATH.unshift(lib)
 require "fin_snap"
 
 config_filename = ARGV.empty? ? "sources.yml" : ARGV.shift
-FinSnap.new(config_filename).run!
+output = FinSnap.new(config_filename).run!
+puts output

@@ -4,10 +4,10 @@ I18n.enforce_available_locales = false
 class Account
   attr_reader :balance, :name, :type
 
-  def initialize(name, type, balance_cents)
+  def initialize(name, type, balance)
     @name = name
-    @type = type
-    @balance = Money.new(balance_cents, "USD")
+    @type = type.to_sym
+    @balance = balance
   end
 
   def to_s
