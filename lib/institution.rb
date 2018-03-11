@@ -8,7 +8,7 @@ class Institution
 
   attr_reader :key, :name, :accounts
 
-  def initialize(key, username, password, login_page, accounts_page)
+  def initialize(key, username, password, login_page = {}, accounts_page = {})
     @key = key
     @username = username
     @password = password
@@ -27,8 +27,10 @@ class Institution
 
   def fetch_accounts!
     @accounts = []
-    accounts_page = login!
-    @accounts = find_accounts!(accounts_page)
+    if @login_url
+      accounts_page = login!
+      @accounts = find_accounts!(accounts_page)
+    end
   end
 
   private

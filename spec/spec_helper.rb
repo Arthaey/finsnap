@@ -1,4 +1,5 @@
 require "fakeweb"
+require "fakeweb_helper"
 
 FakeWeb.allow_net_connect = false
 
