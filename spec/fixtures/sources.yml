@@ -2,12 +2,12 @@ sources:
   acme_financial:
     username: acme_user
     password: acme_pass
-    login:
+    login_page:
       url: http://acme.example.com/login
       form: "#login"
       username: "#username"
       password: "#password"
-    accounts:
+    accounts_page:
       account: ".account"
       name: ".name"
       type: ".type"

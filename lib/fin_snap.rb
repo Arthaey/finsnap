@@ -20,8 +20,8 @@ class FinSnap
       institution = Institution.new(name,
                                     info[:username],
                                     info[:password],
-                                    info[:login],
-                                    info[:accounts])
+                                    info[:login_page],
+                                    info[:accounts_page])
 
       institution.fetch_accounts!
 

@@ -8,12 +8,14 @@ class Institution
 
   attr_reader :key, :name, :accounts
 
-  def initialize(key, username, password, login_page_info, account_page_info)
+  def initialize(key, username, password, login_page, accounts_page)
     @key = key
     @username = username
     @password = password
-    @login_page_info = login_page_info
-    @account_page_info = account_page_info
+
+    @login_url = login_page.delete(:url)
+    @login_selectors = login_page
+    @accounts_selectors= accounts_page
 
     @name = key.to_s.gsub(/[[:punct:]]/, " ").titlecase
     @accounts = []
@@ -25,25 +27,32 @@ class Institution
 
   def fetch_accounts!
     @accounts = []
+    accounts_page = login!
+    @accounts = find_accounts!(accounts_page)
+  end
 
-    agent = Mechanize.new
+  private
 
-    login_page = agent.get(@login_page_info[:url])
+  def login!
+    login_page = Mechanize.new.get(@login_url)
+    login_form = login_page.form_with(css: @login_selectors[:form])
+    login_form.field_with(css: @login_selectors[:username]).value = @username
+    login_form.field_with(css: @login_selectors[:password]).value = @password
+    accounts_page = login_form.submit
+  end
 
-    login_form = login_page.form_with(css: @login_page_info[:form])
-    login_form.at(@login_page_info[:username])["value"] = @username
-    login_form.at(@login_page_info[:password])["value"] = @password
-    accounts_page = login_form.click_button
+  def find_accounts!(accounts_page)
+    accounts = []
 
-    accounts = accounts_page.search(@account_page_info[:account])
-    accounts.each do |account|
-      name = account.at(@account_page_info[:name]).text
-      type = account.at(@account_page_info[:type]).text
-      balance = Monetize.parse(account.at(@account_page_info[:balance]).text)
-      @accounts << Account.new(name, type, balance)
+    account_elements = accounts_page.search(@accounts_selectors[:account])
+    account_elements.each do |account|
+      name = account.at(@accounts_selectors[:name]).text
+      type = account.at(@accounts_selectors[:type]).text
+      balance = Monetize.parse(account.at(@accounts_selectors[:balance]).text)
+      accounts << Account.new(name, type, balance)
     end
 
-    @accounts
+    accounts
   end
 
 end
