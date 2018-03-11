@@ -2,14 +2,11 @@ require "extensions/string"
 require "account"
 
 class Institution
-  def self.login(name, username, password)
-    institution = Institution.new(name, username, password)
-    institution.login!
-    institution
-  end
+  attr_reader :key, :name
 
-  def initialize(name, username, password)
-    @name = name
+  def initialize(key, username, password)
+    @key = key
+    @name = key.to_s.gsub(/[[:punct:]]/, " ").titlecase
     @username = username
     @password = password
   end
@@ -20,12 +17,18 @@ class Institution
 
   def accounts
     [
-      Account.new(self, "Foo", :checking),
-      Account.new(self, "Bar", :saving),
+      Account.new("Foo", :checking, 1234_00),
+      Account.new("Bar", :credit, -3_14),
     ]
   end
 
   def to_s
-    @name.to_s.gsub(/[[:punct:]]/, " ").titlecase
+    @name
+  end
+
+  def self.login(name, username, password)
+    institution = Institution.new(name, username, password)
+    institution.login!
+    institution
   end
 end

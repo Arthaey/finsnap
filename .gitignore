@@ -1,4 +1,5 @@
 sources.yml
+!spec/fixtures/sources.yml
 
 *.gem
 *.rbc

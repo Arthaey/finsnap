@@ -1,0 +1,4 @@
+sources:
+  acme_financial:
+    username: acme_user
+    password: acme_pass

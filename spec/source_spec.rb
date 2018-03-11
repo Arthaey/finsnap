@@ -1,6 +1,8 @@
 require "source"
 
-shared_examples 'a source' do |source|
+RSpec.shared_examples 'a source' do
+  let(:source) { described_class.new }
+
   describe "defines methods" do
     it "#login" do
       expect(source).to respond_to(:login)
