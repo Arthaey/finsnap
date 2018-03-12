@@ -5,18 +5,20 @@ require "institution"
 
 class FinSnap
 
-  def initialize(config_filename)
-    config = YAML::load_file(File.open(config_filename)).deep_symbolize_keys
-    @sources = config[:sources]
+  def initialize(institutions_filename, credentials_filename)
+    credentials = YAML::load_file(File.open(credentials_filename)).deep_symbolize_keys
+    @institutions = YAML::load_file(File.open(institutions_filename)).deep_symbolize_keys
+    @institutions.each do |name, info|
+      info[:username] = credentials[name][:username]
+      info[:password] = credentials[name][:password]
+    end
   end
 
   def run!
     output = ""
-
     net_worth = Money.new(0, "USD")
-    institutions = []
 
-    @sources.each do |name, info|
+    @institutions.each do |name, info|
       institution = Institution.new(name,
                                     info[:username],
                                     info[:password],

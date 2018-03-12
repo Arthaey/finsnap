@@ -1,0 +1,11 @@
+acme_financial:
+  login_page:
+    url: http://acme.example.com/login
+    form: "#login"
+    username: "#username"
+    password: "#password"
+  accounts_page:
+    account: ".account"
+    name: ".name"
+    type: ".type"
+    balance: ".balance"

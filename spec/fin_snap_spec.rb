@@ -1,10 +1,11 @@
 require "fin_snap"
 
 ROOT_DIR = File.expand_path("../..", __FILE__)
-CONFIG_FILE = "#{ROOT_DIR}/spec/fixtures/sources.yml"
+INSTITUTIONS_FILE = "#{ROOT_DIR}/spec/fixtures/institutions.yml"
+CREDENTIALS_FILE = "#{ROOT_DIR}/spec/fixtures/credentials.yml"
 
 RSpec.describe FinSnap do
-  let(:finsnap) { FinSnap.new(CONFIG_FILE) }
+  let(:finsnap) { FinSnap.new(INSTITUTIONS_FILE, CREDENTIALS_FILE) }
 
   it "fetches and displays account balances" do
     FakeWeb.register_uri_with_filename("http://acme.example.com/login",
