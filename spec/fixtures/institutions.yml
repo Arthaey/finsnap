@@ -1,11 +1,23 @@
-acme_financial:
-  login_page:
-    url: http://acme.example.com/login
-    form: "#login"
-    username: "#username"
-    password: "#password"
-  accounts_page:
-    account: ".account"
-    name: ".name"
-    type: ".type"
-    balance: ".balance"
+- acme_financial:
+    login_page:
+      url: http://acme.example.com/login
+      form: "#login"
+      username: "#username"
+      password: "#password"
+    accounts_page:
+      account: ".account"
+      name: ".name"
+      type: ".type"
+      balance: ".balance"
+
+- wells_fargo:
+    login_page:
+      url: https://connect.secure.wellsfargo.com/auth/login/present?destination=AccountSummary
+      form: "#Signon"
+      username: "#j_username"
+      password: "j_password"
+    accounts_page:
+      account: "..account-summary-tile"
+      name: ".account-name"
+      type: ".acct-tile"
+      balance: ".account-balance"
