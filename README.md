@@ -11,10 +11,8 @@ Useful for spreadsheets that track your balances over time.
 
 ## Usage
 
-```
-finsnap institutions.yml credentials.yml
-```
+- `finsnap institutions.yml credentials.yml`
 
 ## Tests
 
-`bundle exec rspec`
+- `bundle exec rspec`
